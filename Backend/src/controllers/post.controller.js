@@ -1,6 +1,9 @@
 const postModel = require("../model/post.model")
 const ImageKit = require("@imagekit/nodejs")
 const { toFile } = require("@imagekit/nodejs")
+const likeModel = require("../model/like.model")
+const jwt = require("jsonwebtoken")
+
 
 const client = new ImageKit({
     privateKey: process.env.IMAGEKIT_PRIVATE_KEY
