@@ -1,15 +1,27 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/form.css";
+import { useAuth } from "../hook/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
+    const {user, Loading, handleLogin} = useAuth()
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate()
+
+  const handleSubmit =  async (e) => {
     e.preventDefault();
-    console.log("Login:", { email, password });
-  };
+    console.log("Login:", { username, password });
+
+    await handleLogin(username, password)
+    console.log("user loggedin")
+
+    navigate('/')
+
+
+  }; 
 
   return (
     <div className="auth-container">
@@ -21,16 +33,16 @@ const Login = () => {
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
-            <label htmlFor="email" className="form-label">
-              Email Address
+            <label htmlFor="username" className="form-label">
+              username
             </label>
             <input
-              type="email"
-              id="email"
+              type="username"
+              id="username"
               className="form-input"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
