@@ -2,12 +2,15 @@ import React from 'react'
 import { RouterProvider } from 'react-router-dom'
 import {router} from './app.routes'
 import { AuthProvider } from './features/auth/auth.context'
+import { PostContextProvider } from './features/posts/post.context'
 
 
 const App = () => {
   return (
     <AuthProvider>
-        <RouterProvider router={router}/>
+        <PostContextProvider>
+            <RouterProvider router={router}/>
+        </PostContextProvider>
     </AuthProvider>
 
   )

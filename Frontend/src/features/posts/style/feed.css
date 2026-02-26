@@ -1,0 +1,410 @@
+/* =========================================
+   feed.css — Instagram-style Feed
+   ========================================= */
+
+/* @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap'); */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --color-bg: #f2f2f2;
+    --color-surface: #ffffff;
+    --color-border: #ebebeb;
+    --color-text-primary: #111111;
+    --color-text-secondary: #737373;
+    --color-text-muted: #b0b0b0;
+    --color-like: #e0284f;
+    --color-accent: #0095f6;
+    --radius-card: 12px;
+    --radius-avatar: 50%;
+    --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.08);
+    --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.1);
+    --font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --transition: 0.2s ease;
+}
+
+body {
+    background-color: var(--color-bg);
+    font-family: var(--font);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- Page Layout --- */
+.feed-page {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+}
+
+.feed-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 28px 16px 60px;
+}
+
+.feed-list {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* =========================================
+   Post Card
+   ========================================= */
+.post-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: box-shadow var(--transition);
+}
+
+.post-card:hover {
+    box-shadow: var(--shadow-card-hover);
+}
+
+/* --- Header --- */
+.post-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+}
+
+.post-card__user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.post-card__avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radius-avatar);
+    flex-shrink: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f5a623, #e8506d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.post-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.post-card__user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.post-card__username {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: opacity var(--transition);
+    line-height: 1.2;
+}
+
+.post-card__username:hover {
+    opacity: 0.65;
+}
+
+.post-card__location {
+    font-size: 11.5px;
+    color: var(--color-text-secondary);
+    line-height: 1.2;
+}
+
+.post-card__more {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    opacity: 0.6;
+    transition: opacity var(--transition);
+    border-radius: 6px;
+}
+
+.post-card__more svg {
+    width: 18px;
+    height: 18px;
+}
+
+.post-card__more:hover {
+    opacity: 1;
+}
+
+/* --- Media --- */
+.post-card__media {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #ececec;
+}
+
+.post-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.post-card:hover .post-card__media img {
+    transform: scale(1.02);
+}
+
+/* --- Actions --- */
+.post-card__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 10px 2px;
+}
+
+.post-card__actions-left {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.post-card__action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: var(--color-text-primary);
+    transition: transform var(--transition), color var(--transition), background var(--transition);
+}
+
+.post-card__action-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.post-card__action-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: scale(1.1);
+}
+
+.post-card__action-btn.is-liked {
+    color: var(--color-like);
+}
+
+@keyframes heartPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.3); }
+    70%  { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.post-card__action-btn.is-animating {
+    animation: heartPop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+.post-card__bookmark.is-saved {
+    color: var(--color-text-primary);
+}
+
+/* --- Meta (likes, caption, etc.) --- */
+.post-card__likes {
+    padding: 2px 18px 4px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    line-height: 1.4;
+}
+
+.post-card__caption {
+    padding: 2px 18px 8px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+}
+
+.post-card__caption-user {
+    font-weight: 600;
+    margin-right: 5px;
+    cursor: pointer;
+    transition: opacity var(--transition);
+}
+
+.post-card__caption-user:hover {
+    opacity: 0.65;
+}
+
+.post-card__caption-text {
+    font-weight: 400;
+    color: #222;
+}
+
+.post-card__comments-link {
+    display: block;
+    background: none;
+    border: none;
+    padding: 0 18px 8px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-family: var(--font);
+    text-align: left;
+    transition: color var(--transition);
+}
+
+.post-card__comments-link:hover {
+    color: var(--color-text-secondary);
+}
+
+.post-card__time {
+    display: block;
+    padding: 0 18px 14px;
+    font-size: 11px;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 500;
+}
+
+/* =========================================
+   Skeleton Loader
+   ========================================= */
+.skeleton-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.skeleton-card__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+}
+
+.skeleton-card__lines {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.skeleton-card__footer {
+    padding: 12px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 6px;
+}
+
+.skeleton--circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.skeleton--image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0;
+}
+
+.skeleton--line {
+    height: 12px;
+}
+
+.skeleton--line-xshort { width: 60px; }
+.skeleton--line-short  { width: 110px; }
+.skeleton--line-long   { width: 75%; }
+
+@keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* =========================================
+   Empty State
+   ========================================= */
+.feed-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    gap: 10px;
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+.feed-empty__icon {
+    font-size: 48px;
+    margin-bottom: 6px;
+    opacity: 0.6;
+}
+
+.feed-empty h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+}
+
+.feed-empty p {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    max-width: 240px;
+    line-height: 1.5;
+}
+
+/* =========================================
+   Responsive
+   ========================================= */
+@media (max-width: 520px) {
+    .feed-wrapper {
+        padding: 0 0 60px;
+    }
+
+    .feed-list {
+        gap: 10px;
+    }
+
+    .post-card {
+        border-radius: 0;
+        box-shadow: none;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .post-card:hover {
+        box-shadow: none;
+    }
+}
