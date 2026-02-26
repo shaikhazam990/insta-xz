@@ -5,22 +5,26 @@ import { useAuth } from "../hook/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const {user, Loading, handleLogin} = useAuth()
+    const {user, loading, handleLogin} = useAuth()
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate()
 
   const handleSubmit =  async (e) => {
     e.preventDefault();
+    setError("");
     console.log("Login:", { username, password });
 
-    await handleLogin(username, password)
-    console.log("user loggedin")
-
-    navigate('/')
-
-
+    try {
+      await handleLogin(username, password)
+      console.log("user loggedin")
+      navigate('/feed')
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed. Please try again.")
+      console.error("Login error:", err)
+    }
   }; 
 
   return (
@@ -32,6 +36,7 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
+          {error && <div className="error-message" style={{color: 'red', marginBottom: '1rem'}}>{error}</div>}
           <div className="form-group">
             <label htmlFor="username" className="form-label">
               username
@@ -68,8 +73,8 @@ const Login = () => {
             </a>
           </div>
 
-          <button type="submit" className="auth-button">
-            Login
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 

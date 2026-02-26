@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../style/form.css";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hook/useAuth";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +11,14 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const { handleRegister, loading } = useAuth();
+  const navigate = useNavigate()
+  
+
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,13 +28,25 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
+    setSuccess("");
+    
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+      setError("Passwords do not match!");
       return;
     }
-    console.log("Register:", formData);
+    
+    try {
+      await handleRegister(formData.username, formData.email, formData.password);
+      setSuccess("Registration successful! Redirecting to login...");
+      console.log("Register:", formData);
+      setTimeout(() => navigate('/login'), 1500);
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed. Please try again.");
+      console.error("Register error:", err);
+    }
   };
 
   return (
@@ -36,6 +58,8 @@ const Register = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
+          {error && <div className="error-message" style={{color: 'red', marginBottom: '1rem'}}>{error}</div>}
+          {success && <div className="success-message" style={{color: 'green', marginBottom: '1rem'}}>{success}</div>}
           <div className="form-group">
             <label htmlFor="username" className="form-label">
               Username
@@ -84,10 +108,24 @@ const Register = () => {
             />
           </div>
 
+          <div className="form-group">
+            <label htmlFor="confirmPassword" className="form-label">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              className="form-input"
+              placeholder="Confirm your password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-
-          <button type="submit" className="auth-button">
-            Create Account
+          <button type="submit" className="auth-button" disabled={loading}>
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 

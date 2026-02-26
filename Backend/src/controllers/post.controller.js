@@ -143,12 +143,6 @@ async function getFeedController(req,res){
     })
     
 }
-
-
-
-
-
-
 module.exports={
     CreatePostController,
     getPostController,
