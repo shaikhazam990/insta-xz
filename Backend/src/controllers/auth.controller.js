@@ -41,7 +41,8 @@ async function registerController(req,res){
             email:user.email,
             username:user.username,
             bio:user.bio,
-            profileImage:user.profileImage
+            profileImage:user.profileImage,
+            _id: user._id,
         }
     })
 }
@@ -85,7 +86,8 @@ async function loginController(req,res){
             username:user.username,
             email:user.email,
             bio:user.bio,
-            profile:user.profileImage
+            profile:user.profileImage,
+            _id: user._id,
         }
 
     })
