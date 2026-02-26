@@ -1,0 +1,302 @@
+/* =========================================
+   nav.css — Instagram-style Left Sidebar
+   ========================================= */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 245px;
+    background: linear-gradient(
+  135deg,
+  rgba(54, 56, 162, 0.65),
+  rgba(59, 126, 174, 0.35)
+);
+backdrop-filter: blur(10px);
+backdrop-filter: blur(12px);
+    border-right: 1px solid #ebebeb;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 12px 24px;
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+/* ---- Brand ---- */
+.sidebar__brand {
+    padding: 18px 12px 28px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidebar__brand-text {
+    font-family: 'Billabong', 'Grand Hotel', 'DM Sans', cursive, sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: #111111;
+    letter-spacing: -0.5px;
+    /* Italic script feel like Instagram wordmark */
+    font-style: italic;
+    transition: opacity 0.2s ease;
+}
+
+.sidebar__brand:hover .sidebar__brand-text {
+    opacity: 0.65;
+}
+
+/* ---- Menu ---- */
+.sidebar__menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+/* ---- Item (shared by menu + logout) ---- */
+.sidebar__item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 14px;
+    background: none;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #111111;
+    text-align: left;
+    transition: background 0.15s ease, font-weight 0.15s ease, transform 0.15s ease;
+}
+
+.sidebar__item:hover {
+    background: linear-gradient(
+  135deg,
+  rgba(255, 220, 220, 0.6),
+  rgba(180, 120, 120, 0.25)
+);
+backdrop-filter: blur(14px);
+    transform: translateX(2px);
+}
+
+.sidebar__item--active {
+    font-weight: 700;
+}
+
+.sidebar__item--active .sidebar__icon svg {
+    stroke-width: 2.5;
+}
+
+/* ---- Icon ---- */
+.sidebar__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sidebar__icon svg {
+    width: 24px;
+    height: 24px;
+    color: #111111;
+}
+
+/* ---- Label ---- */
+.sidebar__label {
+    line-height: 1;
+}
+
+/* ---- Footer (user card + logout) ---- */
+.sidebar__footer {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-top: 1px solid #ebebeb;
+    padding-top: 16px;
+    margin-top: 8px;
+}
+
+/* ---- User Card ---- */
+.sidebar__user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    transition: background 0.15s ease;
+    cursor: default;
+}
+
+.sidebar__user:hover {
+    background: #f2f2f2;
+}
+
+.sidebar__user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #f5a623, #e8506d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.sidebar__user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sidebar__user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+}
+
+.sidebar__user-name {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #111111;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.sidebar__user-stats {
+    font-size: 11.5px;
+    color: #737373;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ---- Logout ---- */
+.sidebar__item--logout {
+    color: #737373;
+}
+
+.sidebar__item--logout .sidebar__icon svg {
+    color: #737373;
+}
+
+.sidebar__item--logout:hover {
+    background: #fff0f2;
+    color: #e0284f;
+}
+
+.sidebar__item--logout:hover .sidebar__icon svg {
+    color: #e0284f;
+}
+
+/* =========================================
+   Push page content to the right of sidebar
+   Add this to your feed-page / main layout:
+   margin-left: 245px
+   ========================================= */
+
+/* =========================================
+   Responsive — collapse to icon-only on small
+   ========================================= */
+@media (max-width: 1100px) {
+    .sidebar {
+        width: 72px;
+        padding: 16px 8px 24px;
+        align-items: center;
+    }
+
+    .sidebar__brand {
+        padding: 18px 0 28px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .sidebar__brand-text {
+        font-size: 22px;
+    }
+
+    .sidebar__item {
+        justify-content: center;
+        padding: 12px;
+        gap: 0;
+    }
+
+    .sidebar__label {
+        display: none;
+    }
+
+    .sidebar__user {
+        justify-content: center;
+        padding: 10px;
+    }
+
+    .sidebar__user-info {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    /* Bottom tab bar on mobile */
+    .sidebar {
+        width: 100%;
+        height: 56px;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        flex-direction: row;
+        border-right: none;
+        border-top: 1px solid #ebebeb;
+        padding: 0 8px;
+        align-items: center;
+        justify-content: space-around;
+        box-shadow: 0 -1px 6px rgba(0,0,0,0.06);
+    }
+
+    .sidebar__brand {
+        display: none;
+    }
+
+    .sidebar__menu {
+        flex-direction: row;
+        justify-content: space-around;
+        flex: 1;
+        gap: 0;
+    }
+
+    .sidebar__item {
+        justify-content: center;
+        padding: 10px 8px;
+        border-radius: 8px;
+        gap: 0;
+    }
+
+    .sidebar__label {
+        display: none;
+    }
+
+    .sidebar__footer {
+        border-top: none;
+        padding-top: 0;
+        margin-top: 0;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .sidebar__user {
+        display: none;
+    }
+}

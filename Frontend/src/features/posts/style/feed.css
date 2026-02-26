@@ -22,14 +22,13 @@
     --color-accent: #0095f6;
     --radius-card: 12px;
     --radius-avatar: 50%;
-    --shadow-card: 0 1px 4px rgba(0, 0, 0, 0.08);
-    --shadow-card-hover: 0 4px 16px rgba(0, 0, 0, 0.1);
+    --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.22);
+    --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.32);
     --font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --transition: 0.2s ease;
 }
 
 body {
-    background-color: var(--color-bg);
     font-family: var(--font);
     color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
@@ -38,10 +37,28 @@ body {
 /* --- Page Layout --- */
 .feed-page {
     min-height: 100vh;
-    background-color: var(--color-bg);
+    position: relative;
+
+    /* ── Dark wallpaper ── */
+    background-image: url('https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=900&auto=format&fit=crop&q=60');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* dim overlay */
+.feed-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.38);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .feed-wrapper {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: center;
     padding: 28px 16px 60px;
@@ -56,18 +73,21 @@ body {
 }
 
 /* =========================================
-   Post Card
+   Post Card — glassmorphism
    ========================================= */
 .post-card {
-    background: var(--color-surface);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     overflow: hidden;
-    transition: box-shadow var(--transition);
+    transition: box-shadow var(--transition), transform var(--transition);
 }
 
 .post-card:hover {
     box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
 }
 
 /* --- Header --- */
@@ -157,21 +177,24 @@ body {
 /* --- Media --- */
 .post-card__media {
     width: 100%;
-    aspect-ratio: 1 / 1;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
-    background-color: #ececec;
 }
 
 .post-card__media img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;
     display: block;
     transition: transform 0.4s ease;
 }
 
 .post-card:hover .post-card__media img {
-    transform: scale(1.02);
+    transform: scale(1.01);
 }
 
 /* --- Actions --- */
@@ -293,7 +316,9 @@ body {
    Skeleton Loader
    ========================================= */
 .skeleton-card {
-    background: var(--color-surface);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     overflow: hidden;
@@ -340,10 +365,7 @@ body {
     border-radius: 0;
 }
 
-.skeleton--line {
-    height: 12px;
-}
-
+.skeleton--line        { height: 12px; }
 .skeleton--line-xshort { width: 60px; }
 .skeleton--line-short  { width: 110px; }
 .skeleton--line-long   { width: 75%; }
@@ -363,8 +385,11 @@ body {
     justify-content: center;
     padding: 80px 24px;
     gap: 10px;
-    color: var(--color-text-secondary);
     text-align: center;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: var(--radius-card);
 }
 
 .feed-empty__icon {
@@ -402,9 +427,17 @@ body {
         border-radius: 0;
         box-shadow: none;
         border-bottom: 1px solid var(--color-border);
+        background: rgba(255, 255, 255, 0.97);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
 
     .post-card:hover {
         box-shadow: none;
+        transform: none;
+    }
+
+    .post-card__media img {
+        max-height: 480px;
     }
 }
