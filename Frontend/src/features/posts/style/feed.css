@@ -1,5 +1,5 @@
 /* =========================================
-   feed.css — Instagram-style Feed
+   feed.css — Instagram-style Feed (Dark Theme)
    ========================================= */
 
 /* @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap'); */
@@ -12,18 +12,25 @@
 }
 
 :root {
-    --color-bg: #f2f2f2;
-    --color-surface: #ffffff;
-    --color-border: #ebebeb;
-    --color-text-primary: #111111;
-    --color-text-secondary: #737373;
-    --color-text-muted: #b0b0b0;
-    --color-like: #e0284f;
-    --color-accent: #0095f6;
-    --radius-card: 12px;
+    /* Dark card palette */
+    --color-card-bg:        rgba(18, 22, 38, 0.72);
+    --color-card-border:    rgba(255, 255, 255, 0.10);
+    --color-card-divider:   rgba(255, 255, 255, 0.07);
+
+    /* Text on dark card */
+    --color-text-primary:   #f0f0f0;
+    --color-text-secondary: #9aa0b8;
+    --color-text-muted:     #5a607a;
+
+    --color-like:    #ff4d6d;
+    --color-accent:  #4da6ff;
+
+    --radius-card:   14px;
     --radius-avatar: 50%;
-    --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.22);
-    --shadow-card-hover: 0 8px 32px rgba(0, 0, 0, 0.32);
+
+    --shadow-card:       0 4px 24px rgba(0, 0, 0, 0.50);
+    --shadow-card-hover: 0 12px 48px rgba(0, 0, 0, 0.70);
+
     --font: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --transition: 0.2s ease;
 }
@@ -34,24 +41,23 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* --- Page Layout --- */
+/* =========================================
+   Page — Starry night wallpaper
+   ========================================= */
 .feed-page {
     min-height: 100vh;
     position: relative;
-
-    /* ── Dark wallpaper ── */
-    background-image: url('https://images.unsplash.com/photo-1509023464722-18d996393ca8?w=900&auto=format&fit=crop&q=60');
+    background-image: url('https://images.unsplash.com/photo-1439792675105-701e6a4ab6f0?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZGFyayUyMHdhbGxwYXBlcnxlbnwwfHwwfHx8MA%3D%3D');
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     background-attachment: fixed;
 }
 
-/* dim overlay */
 .feed-page::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.38);
+    background: rgba(4, 6, 16, 0.55);
     pointer-events: none;
     z-index: 0;
 }
@@ -69,25 +75,27 @@ body {
     max-width: 480px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
 }
 
 /* =========================================
-   Post Card — glassmorphism
+   Post Card — dark glass
    ========================================= */
 .post-card {
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: var(--color-card-bg);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--color-card-border);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     overflow: hidden;
-    transition: box-shadow var(--transition), transform var(--transition);
+    transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
 }
 
 .post-card:hover {
     box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 
 /* --- Header --- */
@@ -95,7 +103,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 14px;
+    padding: 13px 15px;
+    border-bottom: 1px solid var(--color-card-divider);
 }
 
 .post-card__user {
@@ -118,6 +127,8 @@ body {
     font-size: 15px;
     font-weight: 600;
     letter-spacing: -0.3px;
+    /* soft glow ring */
+    box-shadow: 0 0 0 2px rgba(245, 166, 35, 0.35);
 }
 
 .post-card__avatar img {
@@ -130,7 +141,7 @@ body {
 .post-card__user-info {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 2px;
 }
 
 .post-card__username {
@@ -143,7 +154,7 @@ body {
 }
 
 .post-card__username:hover {
-    opacity: 0.65;
+    opacity: 0.7;
 }
 
 .post-card__location {
@@ -157,44 +168,41 @@ body {
     border: none;
     cursor: pointer;
     padding: 6px;
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     display: flex;
     align-items: center;
-    opacity: 0.6;
+    opacity: 0.7;
     transition: opacity var(--transition);
     border-radius: 6px;
 }
 
-.post-card__more svg {
-    width: 18px;
-    height: 18px;
-}
-
-.post-card__more:hover {
-    opacity: 1;
-}
+.post-card__more svg { width: 18px; height: 18px; }
+.post-card__more:hover { opacity: 1; }
 
 /* --- Media --- */
 .post-card__media {
     width: 100%;
-    background-color: #f0f0f0;
+    background-color: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    /* thin top/bottom separator lines */
+    border-top: 1px solid var(--color-card-divider);
+    border-bottom: 1px solid var(--color-card-divider);
 }
 
 .post-card__media img {
     width: 100%;
     height: auto;
-    max-height: 600px;
+    max-height: 580px;
     object-fit: contain;
     display: block;
-    transition: transform 0.4s ease;
+    transition: transform 0.45s ease;
 }
 
 .post-card:hover .post-card__media img {
-    transform: scale(1.01);
+    transform: scale(1.015);
 }
 
 /* --- Actions --- */
@@ -224,24 +232,19 @@ body {
     transition: transform var(--transition), color var(--transition), background var(--transition);
 }
 
-.post-card__action-btn svg {
-    width: 24px;
-    height: 24px;
-}
+.post-card__action-btn svg { width: 24px; height: 24px; }
 
 .post-card__action-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.12);
 }
 
-.post-card__action-btn.is-liked {
-    color: var(--color-like);
-}
+.post-card__action-btn.is-liked { color: var(--color-like); }
 
 @keyframes heartPop {
     0%   { transform: scale(1); }
-    40%  { transform: scale(1.3); }
-    70%  { transform: scale(0.9); }
+    40%  { transform: scale(1.35); }
+    70%  { transform: scale(0.88); }
     100% { transform: scale(1); }
 }
 
@@ -249,23 +252,21 @@ body {
     animation: heartPop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
 }
 
-.post-card__bookmark.is-saved {
-    color: var(--color-text-primary);
-}
+.post-card__bookmark.is-saved { color: var(--color-text-primary); }
 
-/* --- Meta (likes, caption, etc.) --- */
+/* --- Meta --- */
 .post-card__likes {
-    padding: 2px 18px 4px;
-    font-size: 13.5px;
+    padding: 4px 16px 3px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--color-text-primary);
     line-height: 1.4;
 }
 
 .post-card__caption {
-    padding: 2px 18px 8px;
+    padding: 2px 16px 8px;
     font-size: 13.5px;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--color-text-primary);
 }
 
@@ -273,23 +274,22 @@ body {
     font-weight: 600;
     margin-right: 5px;
     cursor: pointer;
+    color: #c8cfea;
     transition: opacity var(--transition);
 }
 
-.post-card__caption-user:hover {
-    opacity: 0.65;
-}
+.post-card__caption-user:hover { opacity: 0.7; }
 
 .post-card__caption-text {
     font-weight: 400;
-    color: #222;
+    color: #bcc3db;
 }
 
 .post-card__comments-link {
     display: block;
     background: none;
     border: none;
-    padding: 0 18px 8px;
+    padding: 0 16px 8px;
     font-size: 13px;
     color: var(--color-text-muted);
     cursor: pointer;
@@ -298,27 +298,26 @@ body {
     transition: color var(--transition);
 }
 
-.post-card__comments-link:hover {
-    color: var(--color-text-secondary);
-}
+.post-card__comments-link:hover { color: var(--color-text-secondary); }
 
 .post-card__time {
     display: block;
-    padding: 0 18px 14px;
-    font-size: 11px;
+    padding: 0 16px 14px;
+    font-size: 10.5px;
     color: var(--color-text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.7px;
     font-weight: 500;
 }
 
 /* =========================================
-   Skeleton Loader
+   Skeleton Loader — dark
    ========================================= */
 .skeleton-card {
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: var(--color-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-card-border);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
     overflow: hidden;
@@ -328,7 +327,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 14px;
+    padding: 12px 15px;
 }
 
 .skeleton-card__lines {
@@ -339,16 +338,20 @@ body {
 }
 
 .skeleton-card__footer {
-    padding: 12px 18px 16px;
+    padding: 12px 16px 16px;
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
 .skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0.05) 25%,
+        rgba(255,255,255,0.10) 50%,
+        rgba(255,255,255,0.05) 75%
+    );
     background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
+    animation: shimmer 1.5s infinite;
     border-radius: 6px;
 }
 
@@ -386,16 +389,17 @@ body {
     padding: 80px 24px;
     gap: 10px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: var(--color-card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--color-card-border);
     border-radius: var(--radius-card);
 }
 
 .feed-empty__icon {
     font-size: 48px;
     margin-bottom: 6px;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 
 .feed-empty h2 {
@@ -420,16 +424,15 @@ body {
     }
 
     .feed-list {
-        gap: 10px;
+        gap: 12px;
     }
 
     .post-card {
         border-radius: 0;
         box-shadow: none;
-        border-bottom: 1px solid var(--color-border);
-        background: rgba(255, 255, 255, 0.97);
-        backdrop-filter: none;
-        -webkit-backdrop-filter: none;
+        border-left: none;
+        border-right: none;
+        border-color: rgba(255, 255, 255, 0.08);
     }
 
     .post-card:hover {
