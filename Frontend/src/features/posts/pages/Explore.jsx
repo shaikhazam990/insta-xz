@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import '../style/explore.css'
+import '../style/Explore.css'
+
 
 const api = axios.create({
     baseURL: "http://localhost:3000",
