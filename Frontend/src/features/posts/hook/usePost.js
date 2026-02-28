@@ -22,18 +22,41 @@ export const usePost = () => {
         setLoading(false)
     }
 
-    const handleLike = async (post) => {
-
-        const data = await likePost(post)
-        await handleGetFeed()
-
+   const handleLike = async (postId) => {
+    // optimistically update UI immediately
+    setFeed(prev => prev.map(p =>
+        p._id === postId
+            ? { ...p, isLiked: true, likeCount: (p.likeCount || 0) + 1 }
+            : p
+    ))
+    try {
+        await likePost(postId)
+    } catch {
+        // revert on failure
+        setFeed(prev => prev.map(p =>
+            p._id === postId
+                ? { ...p, isLiked: false, likeCount: (p.likeCount || 0) - 1 }
+                : p
+        ))
     }
-    const handleUnLike = async (post) => {
+}
 
-        const data = await unLikePost(post)
-        await handleGetFeed()
-
+const handleUnLike = async (postId) => {
+    setFeed(prev => prev.map(p =>
+        p._id === postId
+            ? { ...p, isLiked: false, likeCount: Math.max((p.likeCount || 0) - 1, 0) }
+            : p
+    ))
+    try {
+        await unLikePost(postId)
+    } catch {
+        setFeed(prev => prev.map(p =>
+            p._id === postId
+                ? { ...p, isLiked: true, likeCount: (p.likeCount || 0) + 1 }
+                : p
+        ))
     }
+}
 
     useEffect(() => {
         handleGetFeed()

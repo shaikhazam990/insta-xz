@@ -9,7 +9,6 @@ export const useAuth = () => {
 
     const { user, setUser, loading, setLoading } = context
 
-
     const handleLogin = async (username, password) => {
         try {
             setLoading(true)
@@ -37,7 +36,11 @@ export const useAuth = () => {
     }
 
     return {
-        user, loading, handleLogin, handleRegister
+        user,
+        setUser,   
+        loading,
+        handleLogin,
+        handleRegister
     }
 
 }

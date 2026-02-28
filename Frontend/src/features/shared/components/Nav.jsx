@@ -1,41 +1,8 @@
-// import React from 'react'
-// import { useNavigate } from 'react-router-dom'
-// import { useAuth } from '../../auth/hook/useAuth'
-// import "./nav.css"
-
-// const Nav = () => {
-//   const navigate = useNavigate()
-//   const { user } = useAuth()
-
-//   return (
-//     <nav className="navbar">
-//       <div className="nav-container">
-//         <div className="nav-brand">
-//           <h2 onClick={() => navigate('/feed')}>InstaXZ</h2>
-//         </div>
-//         <div className="nav-menu">
-//           <button onClick={() => navigate('/feed')} className="nav-link">
-//             Feed
-//           </button>
-//           <button onClick={() => navigate('/profile')} className="nav-link">
-//             Profile
-//           </button>
-//           <button onClick={() => navigate('/')} className="nav-link logout">
-//             Logout
-//           </button>
-//         </div>
-//       </div>
-//     </nav>
-//   )
-// }
-
-// export default Nav
-
-
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../auth/hook/useAuth'
 import './nav.css'
+import CreatePost from '../../posts/pages/CreatePost'
 
 const HomeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -100,7 +67,7 @@ const Nav = () => {
     { label: 'Search',        path: '/search',  icon: <SearchIcon /> },
     { label: 'Explore',       path: '/explore', icon: <ExploreIcon /> },
     { label: 'Notifications', path: '/notifs',  icon: <NotificationIcon /> },
-    { label: 'Create',        path: '/create',  icon: <CreateIcon /> },
+    { label: 'Create',        path: '/create-post', element:<CreatePost/> ,icon: <CreateIcon /> },
     { label: 'Profile',       path: '/profile', icon: <ProfileIcon /> },
   ]
 
@@ -160,4 +127,3 @@ const Nav = () => {
 }
 
 export default Nav
-

@@ -1,4 +1,5 @@
 const postModel = require("../models/post.model")
+const notificationModel = require("../models/Notification.model")
 
 const ImageKit = require("@imagekit/nodejs")
 const {toFile} = require("@imagekit/nodejs");
@@ -98,55 +99,113 @@ async function getPostDetailsController(req,res){
 
 
 }
-
-async function likePostController(req,res){
+async function likePostController(req, res) {
     const username = req.user.username
     const postId = req.params.postId
 
     const post = await postModel.findById(postId)
 
-    if(!post){
-        return res.status(404).json({
-            message: "post not found."
+    if (!post) {
+        return res.status(404).json({ message: "post not found." })
+    }
+
+    // ✅ Already liked hai to dobara like mat karo
+    const alreadyLiked = await likeModel.findOne({ post: postId, user: username })
+
+    if (alreadyLiked) {
+        return res.status(400).json({ message: "Post already liked." })
+    }
+
+    const like = await likeModel.create({ post: postId, user: username })
+
+    res.status(200).json({ message: "post liked successfully", like })
+}
+
+async function unLikePostController(req, res) {
+    const postId = req.params.postId
+    const username = req.user.username
+
+    const isLiked = await likeModel.findOne({
+        post: postId,
+        user: username
+    })
+
+    if (!isLiked) {
+        return res.status(400).json({
+            message: "Post didn't like"
         })
     }
 
-    const like = await likeModel.create({
-        post: postId,
-        user:username
-    })
+    await likeModel.findOneAndDelete({ _id: isLiked._id })
 
-    res.status(200).json({
-        message: " post like successfully",
-        like
+    return res.status(200).json({
+        message: "post un liked successfully."
     })
 }
 
-async function getFeedController(req,res){
+async function getFeedController(req, res) {
 
     const user = req.user
 
     const posts = await Promise.all((await postModel.find().populate("user").lean())
 
-    .map(async(post)=>{
+    .map(async (post) => {
         const isLiked = await likeModel.findOne({
-            username :user.username,
+            user: user.username,
             post: post._id
         })
-        post.isLiked= Boolean(isLiked)
+
+        const likeCount = await likeModel.countDocuments({ post: post._id }) 
+
+        post.isLiked = Boolean(isLiked)
+        post.likeCount = likeCount                                            
         return post
     }))
 
     res.status(200).json({
-        message:"posts fetched successfully...........",
+        message: "posts fetched successfully",
         posts
     })
-    
+
+}
+
+async function likePostController(req, res) {
+    const username = req.user.username
+    const postId = req.params.postId
+
+    const post = await postModel.findById(postId).populate("user")  // ✅ .populate("user") add karo
+
+    if (!post) {
+        return res.status(404).json({ message: "post not found." })
+    }
+
+    const alreadyLiked = await likeModel.findOne({ post: postId, user: username })
+
+    if (alreadyLiked) {
+        return res.status(400).json({ message: "Post already liked." })
+    }
+
+    const like = await likeModel.create({ post: postId, user: username })
+
+    // ✅ sirf ye block add karo
+    const postOwner = post.user?.username
+    if (postOwner && postOwner !== username) {
+        await notificationModel.create({
+            to: postOwner,
+            from: username,
+            type: "like",
+            post: postId
+        })
+    }
+
+    res.status(200).json({ message: "post liked successfully", like })
 }
 module.exports={
     CreatePostController,
     getPostController,
     getPostDetailsController,
     likePostController,
-    getFeedController
+    getFeedController,
+    unLikePostController,
+    likePostController
 }
