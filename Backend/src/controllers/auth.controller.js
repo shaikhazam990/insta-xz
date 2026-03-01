@@ -35,7 +35,7 @@ async function registerController(req,res){
     )
       res.cookie("token", token, {
     httpOnly: true,
-    secure: true,
+    secure: isProd,                 // ❗ prod=true, local=false
     sameSite: "none",
     path: "/",
   });
@@ -85,7 +85,7 @@ async function loginController(req,res){
     )
     res.cookie("token", token, {
     httpOnly: true,
-    secure: true,
+    secure: isProd,                 // ❗ prod=true, local=false
     sameSite: "none",
     path: "/",
   });
