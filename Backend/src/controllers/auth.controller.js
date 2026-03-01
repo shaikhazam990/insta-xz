@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs")
 
 const isProd = process.env.NODE_ENV === "production"  
 
+
+
 async function registerController(req, res) {
     const { username, email, password, bio, profileImage } = req.body
 
