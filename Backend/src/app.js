@@ -6,10 +6,13 @@ const app = express()
 app.use(express.json())
 app.use(cookieparser())
 app.use(cors({
-    credentials:true,
-    origin:"http://localhost:5173",
-    methods: [ "GET", "POST", "PUT", "DELETE", "PATCH" ],
-}))
+  origin: [
+    "http://localhost:5173",        // local dev
+    "https://insta-xz.vercel.app"   // ✅ production (Vercel)
+  ],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+}));
 
 //   require routes
 const postRouter = require("./routes/post.route")
