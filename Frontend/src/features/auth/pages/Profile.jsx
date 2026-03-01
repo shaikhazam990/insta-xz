@@ -5,7 +5,7 @@ import axios from 'axios'
 import '../style/profile.css'
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://insta-xz.onrender.com",
     withCredentials: true
 })
 
