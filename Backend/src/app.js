@@ -7,9 +7,9 @@ app.use(express.json())
 app.use(cookieparser())
 app.use(cors({
   origin: [
-    "http://localhost:5173",        // local dev
-    "https://insta-xz.vercel.app"   // ✅ production (Vercel)
-  ],
+    "http://localhost:5173",
+    "https://insta-azam.vercel.app"   // ✅ sahi URL
+],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
 }));
